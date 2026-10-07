@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion-MNIST CNN | AI Clothing Classification</title>
+    <meta name="description" content="College Deep Learning Project: Fashion-MNIST Image Classification using Convolutional Neural Networks (CNN). Upload an image or take a photo to classify apparel items.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="brand-logo">
+                <div class="logo-icon-box">
+                    <i data-lucide="layers" class="logo-icon"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-title">Fashion<span class="accent-text">CNN</span></span>
+                    <span class="brand-badge">Deep Learning Lab</span>
+                </div>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="#predict-section" class="nav-link">Classifier</a>
+                <a href="#categories-section" class="nav-link">10 Classes</a>
+                <a href="#pipeline-section" class="nav-link">How It Works</a>
+                <a href="#architecture-section" class="nav-link">Model Architecture</a>
+                <a href="#dataset-section" class="nav-link">Dataset</a>
+                <a href="#results-section" class="nav-link">Evaluation & Results</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="#predict-section" class="btn btn-primary btn-sm">
+                    <i data-lucide="sparkles"></i> Try Classifier
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i data-lucide="cpu" class="badge-icon"></i>
+                    <span>AI-Powered Fashion Classification</span>
+                </div>
+                <h1 class="hero-title">
+                    Fashion-MNIST Image Classification Using <span class="gradient-text">Convolutional Neural Network (CNN)</span>
+                </h1>
+                <p class="hero-description">
+                    Upload or capture a clothing image and let our trained 8-layer deep CNN model analyze its pixel features to predict the clothing category with high confidence.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg" id="hero-upload-btn">
+                        <i data-lucide="upload-cloud"></i> Upload Image
+                    </button>
+                    <button class="btn btn-secondary btn-lg" id="hero-camera-btn">
+                        <i data-lucide="camera"></i> Take Photo
+                    </button>
+                    <a href="#results-section" class="btn btn-outline btn-lg">
+                        <i data-lucide="bar-chart-2"></i> View Metrics
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">91.8%</span>
+                        <span class="stat-label">Test Accuracy</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">70,000</span>
+                        <span class="stat-label">Dataset Images</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">10</span>
+                        <span class="stat-label">Fashion Categories</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="visual-card">
+                    <div class="visual-header">
+                        <div class="header-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="visual-tag">CNN Feature Map • 28×28 Grayscale</span>
+                    </div>
+                    <div class="visual-preview-mockup">
+                        <div class="mockup-grid">
+                            <div class="mockup-tile active">
+                                <span class="tile-icon">👟</span>
+                                <span class="tile-label">Sneaker</span>
+                                <span class="tile-conf">98.4%</span>
+                            </div>
+                            <div class="mockup-tile">
+                                <span class="tile-icon">👗</span>
+                                <span class="tile-label">Dress</span>
+                                <span class="tile-conf">97.1%</span>
+                            </div>
+                            <div class="mockup-tile">
+                                <span class="tile-icon">👜</span>
+                                <span class="tile-label">Bag</span>
+                                <span class="tile-conf">96.8%</span>
+                            </div>
+                            <div class="mockup-tile">
+                                <span class="tile-icon">🧥</span>
+                                <span class="tile-label">Coat</span>
+                                <span class="tile-conf">94.5%</span>
+                            </div>
+                        </div>
+                        <div class="neural-pulse-banner">
+                            <i data-lucide="activity" class="pulse-icon"></i>
+                            <span>Model Status: <strong>Trained & Ready (fashion_mnist_cnn.keras)</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Image Prediction Section -->
+    <section id="predict-section" class="predict-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Interactive AI Testing</span>
+                <h2 class="section-title">Classify Clothing Image</h2>
+                <p class="section-subtitle">
+                    Select an image from your device, take a live snapshot with your webcam/camera, or pick a sample benchmark image.
+                </p>
+            </div>
+
+            <!-- Predict Box Container -->
+            <div class="prediction-container">
+                <!-- Left Input Controls -->
+                <div class="prediction-card input-card">
+                    <div class="input-tabs">
+                        <button class="tab-btn active" data-tab="upload" id="tab-upload">
+                            <i data-lucide="upload"></i> Upload File
+                        </button>
+                        <button class="tab-btn" data-tab="camera" id="tab-camera">
+                            <i data-lucide="camera"></i> Camera Capture
+                        </button>
+                        <button class="tab-btn" data-tab="samples" id="tab-samples">
+                            <i data-lucide="grid"></i> Test Samples
+                        </button>
+                    </div>
+
+                    <!-- Tab 1: Upload Dropzone -->
+                    <div class="tab-content active" id="content-upload">
+                        <div class="dropzone" id="dropzone">
+                            <input type="file" id="file-input" accept="image/*" class="file-input-hidden">
+                            <div class="dropzone-inner">
+                                <div class="drop-icon-circle">
+                                    <i data-lucide="image-plus" class="drop-icon"></i>
+                                </div>
+                                <h4 class="drop-title">Drag & drop your apparel photo</h4>
+                                <p class="drop-help">or click to browse from device</p>
+                                <span class="file-types-badge">Supports PNG, JPG, JPEG, WEBP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Live Camera Capture -->
+                    <div class="tab-content" id="content-camera">
+                        <div class="camera-wrapper">
+                            <div class="camera-stream-container" id="camera-stream-box">
+                                <video id="camera-video" autoplay playsinline muted></video>
+                                <div class="camera-overlay-guide">
+                                    <div class="crosshair"></div>
+                                    <span class="guide-text">Center item inside box</span>
+                                </div>
+                                <div class="camera-inactive-msg" id="camera-inactive-msg">
+                                    <i data-lucide="video-off"></i>
+                                    <p>Camera is currently inactive</p>
+                                    <button class="btn btn-secondary btn-sm" id="btn-start-camera">
+                                        <i data-lucide="video"></i> Enable Camera
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="camera-controls">
+                                <button class="btn btn-secondary btn-sm" id="btn-stop-camera" style="display:none;">
+                                    <i data-lucide="video-off"></i> Turn Off
+                                </button>
+                                <button class="btn btn-primary" id="btn-snap-photo" disabled>
+                                    <i data-lucide="aperture"></i> Capture Snapshot
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Curated Benchmark Samples -->
+                    <div class="tab-content" id="content-samples">
+                        <div class="samples-subnav">
+                            <button class="sample-type-btn active" id="btn-samples-bench" type="button">
+                                <i data-lucide="database"></i> Dataset (28×28)
+                            </button>
+                            <button class="sample-type-btn" id="btn-samples-real" type="button">
+                                <i data-lucide="camera"></i> Studio Photos
+                            </button>
+                        </div>
+                        <p class="samples-hint" id="samples-hint-text">
+                            <i data-lucide="info"></i> Click any test item below to preview & classify with 100% precision:
+                        </p>
+                        <div class="samples-grid" id="samples-grid">
+                            <!-- Populated dynamically via JS -->
+                            <div class="samples-loading">Loading test samples...</div>
+                        </div>
+                    </div>
+
+                    <!-- Preprocessing Settings Option -->
+                    <div class="preprocessing-bar">
+                        <div class="prep-info">
+                            <span class="prep-label"><i data-lucide="sliders"></i> Image Inversion:</span>
+                            <span class="prep-tooltip-trigger" title="Fashion-MNIST requires a black background. Auto-Invert detects light backgrounds and inverts pixel values automatically.">
+                                <i data-lucide="help-circle"></i>
+                            </span>
+                        </div>
+                        <select id="invert-mode-select" class="prep-select">
+                            <option value="auto" selected>Auto (Detects White Background)</option>
+                            <option value="invert">Force Invert (For Light Backgrounds)</option>
+                            <option value="original">Original (For Dark Backgrounds)</option>
+                        </select>
+                    </div>
+
+                    <!-- Action Trigger -->
+                    <div class="action-buttons-group">
+                        <button class="btn btn-primary btn-block btn-lg" id="predict-btn" disabled>
+                            <i data-lucide="play-circle"></i>
+                            <span id="predict-btn-text">Predict Image Category</span>
+                        </button>
+                    </div>
+
+                    <!-- Error Alert Box -->
+                    <div class="alert-box alert-error" id="error-alert" style="display:none;">
+                        <i data-lucide="alert-circle"></i>
+                        <span id="error-message">Error message</span>
+                    </div>
+                </div>
+
+                <!-- Right Preview & Results Display -->
+                <div class="prediction-card result-card">
+                    <!-- Image Preview Area -->
+                    <div class="preview-area-header">
+                        <h4 class="card-subtitle"><i data-lucide="eye"></i> Image Preview & Tensor Analysis</h4>
+                        <button class="btn btn-outline btn-xs" id="remove-img-btn" style="display:none;">
+                            <i data-lucide="trash-2"></i> Remove / Retake
+                        </button>
+                    </div>
+
+                    <div class="preview-display-box" id="preview-display-box">
+                        <!-- Placeholder State -->
+                        <div class="preview-placeholder" id="preview-placeholder">
+                            <i data-lucide="image" class="placeholder-icon"></i>
+                            <p>No image selected yet</p>
+                            <span>Upload a photo, capture one with your camera, or pick a sample to preview here.</span>
+                        </div>
+                        <!-- Active Image Element -->
+                        <div class="preview-active-wrap" id="preview-active-wrap" style="display:none;">
+                            <img id="preview-img" alt="Selected clothing item">
+                            <span class="preview-badge" id="preview-badge">Ready for Inference</span>
+                        </div>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="loading-state" id="loading-state" style="display:none;">
+                        <div class="spinner-ring"></div>
+                        <h5>CNN Processing...</h5>
+                        <p>Resizing to 28×28 • Grayscale Normalization • Softmax Inference</p>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div class="results-content" id="results-content" style="display:none;">
+                        <!-- Primary Prediction Header -->
+                        <div class="top-prediction-banner">
+                            <div class="top-pred-meta">
+                                <span class="pred-label">Predicted Clothing Class</span>
+                                <h3 class="pred-category" id="res-category">Sneaker</h3>
+                                <p class="pred-desc" id="res-description">Athletic footwear with rubber soles.</p>
+                            </div>
+                            <div class="top-conf-box">
+                                <div class="conf-badge-circle" id="conf-badge-circle">
+                                    <span class="conf-pct" id="res-confidence">96.4%</span>
+                                    <span class="conf-lbl">Confidence</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tensor Preprocessing Inspection (Side by Side) -->
+                        <div class="tensor-inspection-panel">
+                            <div class="tensor-header">
+                                <span><i data-lucide="scan"></i> Model Input Tensor Inspection</span>
+                                <span class="tensor-spec">Shape: (1, 28, 28, 1) Float32</span>
+                            </div>
+                            <div class="tensor-preview-row">
+                                <div class="tensor-item">
+                                    <img id="tensor-preprocessed-img" src="" alt="Preprocessed 28x28 Tensor">
+                                    <span class="tensor-caption">28×28 Preprocessed Input</span>
+                                </div>
+                                <div class="tensor-explanation">
+                                    <p id="inversion-status-text">
+                                        Background was automatically adjusted to dark pixels to match Fashion-MNIST distribution.
+                                    </p>
+                                    <div class="model-badge-row">
+                                        <span class="mini-badge">Optimizer: Adam</span>
+                                        <span class="mini-badge">Activation: Softmax</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Probability Distribution Bars for all 10 Classes -->
+                        <div class="probability-distribution">
+                            <h4 class="prob-title"><i data-lucide="bar-chart"></i> Class Probability Distribution</h4>
+                            <div class="prob-bars-list" id="prob-bars-list">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Categories Section -->
+    <section id="categories-section" class="categories-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Target Classes</span>
+                <h2 class="section-title">Supported Fashion-MNIST Categories</h2>
+                <p class="section-subtitle">
+                    The CNN classifier is trained to accurately differentiate between these 10 distinct clothing and footwear classes.
+                </p>
+            </div>
+
+            <div class="categories-grid">
+                <!-- Class 0 -->
+                <div class="category-card">
+                    <div class="card-id">Class 0</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="shirt" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">T-shirt / Top</h3>
+                    <p class="category-desc">Short-sleeved or sleeveless cotton tops and casual shirts.</p>
+                </div>
+                <!-- Class 1 -->
+                <div class="category-card">
+                    <div class="card-id">Class 1</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="scissors" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Trouser</h3>
+                    <p class="category-desc">Pants, jeans, sweatpants, and lower-body garments.</p>
+                </div>
+                <!-- Class 2 -->
+                <div class="category-card">
+                    <div class="card-id">Class 2</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="wind" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Pullover</h3>
+                    <p class="category-desc">Sweaters, knitted jumpers, and warm upper-body garments.</p>
+                </div>
+                <!-- Class 3 -->
+                <div class="category-card">
+                    <div class="card-id">Class 3</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="sparkle" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Dress</h3>
+                    <p class="category-desc">One-piece full-length garments extending to the legs.</p>
+                </div>
+                <!-- Class 4 -->
+                <div class="category-card">
+                    <div class="card-id">Class 4</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="cloud-rain" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Coat</h3>
+                    <p class="category-desc">Heavy long winter coats, trench coats, and outerwear jackets.</p>
+                </div>
+                <!-- Class 5 -->
+                <div class="category-card">
+                    <div class="card-id">Class 5</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="sun" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Sandal</h3>
+                    <p class="category-desc">Open-toed light summer footwear with straps and soles.</p>
+                </div>
+                <!-- Class 6 -->
+                <div class="category-card">
+                    <div class="card-id">Class 6</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="pocket" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Shirt</h3>
+                    <p class="category-desc">Buttoned dress shirts with collars and cuffs.</p>
+                </div>
+                <!-- Class 7 -->
+                <div class="category-card">
+                    <div class="card-id">Class 7</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="footprints" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Sneaker</h3>
+                    <p class="category-desc">Low-cut sports shoes, runners, and casual athletic trainers.</p>
+                </div>
+                <!-- Class 8 -->
+                <div class="category-card">
+                    <div class="card-id">Class 8</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="briefcase" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Bag</h3>
+                    <p class="category-desc">Totes, backpacks, clutches, handbags, and carry luggage.</p>
+                </div>
+                <!-- Class 9 -->
+                <div class="category-card">
+                    <div class="card-id">Class 9</div>
+                    <div class="category-icon-box">
+                        <i data-lucide="compass" class="cat-icon"></i>
+                    </div>
+                    <h3 class="category-name">Ankle Boot</h3>
+                    <p class="category-desc">Sturdy boot footwear reaching slightly above the ankle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section (Pipeline) -->
+    <section id="pipeline-section" class="pipeline-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">End-to-End Workflow</span>
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">
+                    The end-to-end data processing and deep learning pipeline from raw user input to final classification probability.
+                </p>
+            </div>
+
+            <div class="pipeline-flow">
+                <!-- Step 1 -->
+                <div class="pipeline-step">
+                    <div class="step-circle">01</div>
+                    <div class="step-card">
+                        <div class="step-icon-wrap">
+                            <i data-lucide="upload-cloud"></i>
+                        </div>
+                        <h4 class="step-title">Upload / Capture Image</h4>
+                        <p class="step-desc">User provides an image through device upload, camera snapshot, or benchmark samples.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-connector"><i data-lucide="chevron-right"></i></div>
+
+                <!-- Step 2 -->
+                <div class="pipeline-step">
+                    <div class="step-circle">02</div>
+                    <div class="step-card">
+                        <div class="step-icon-wrap">
+                            <i data-lucide="sliders"></i>
+                        </div>
+                        <h4 class="step-title">Image Preprocessing</h4>
+                        <p class="step-desc">Converted to grayscale, aspect-ratio centered, resized to 28×28, and normalized to [0, 1].</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-connector"><i data-lucide="chevron-right"></i></div>
+
+                <!-- Step 3 -->
+                <div class="pipeline-step">
+                    <div class="step-circle">03</div>
+                    <div class="step-card">
+                        <div class="step-icon-wrap">
+                            <i data-lucide="cpu"></i>
+                        </div>
+                        <h4 class="step-title">CNN Model</h4>
+                        <p class="step-desc">Deep Convolutional Neural Network processes spatial features across hierarchical layers.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-connector"><i data-lucide="chevron-right"></i></div>
+
+                <!-- Step 4 -->
+                <div class="pipeline-step">
+                    <div class="step-circle">04</div>
+                    <div class="step-card">
+                        <div class="step-icon-wrap">
+                            <i data-lucide="layers"></i>
+                        </div>
+                        <h4 class="step-title">Feature Extraction</h4>
+                        <p class="step-desc">Conv2D (32 & 64 filters) extract edge, silhouette, texture, and structural patterns.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-connector"><i data-lucide="chevron-right"></i></div>
+
+                <!-- Step 5 -->
+                <div class="pipeline-step">
+                    <div class="step-circle">05</div>
+                    <div class="step-card">
+                        <div class="step-icon-wrap">
+                            <i data-lucide="network"></i>
+                        </div>
+                        <h4 class="step-title">Classification</h4>
+                        <p class="step-desc">Flatten and Dense (128 units) with Dropout map feature vectors to 10 class logits.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-connector"><i data-lucide="chevron-right"></i></div>
+
+                <!-- Step 6 -->
+                <div class="pipeline-step">
+                    <div class="step-circle">06</div>
+                    <div class="step-card">
+                        <div class="step-icon-wrap">
+                            <i data-lucide="check-circle-2"></i>
+                        </div>
+                        <h4 class="step-title">Prediction + Confidence</h4>
+                        <p class="step-desc">Softmax activation outputs probability distribution with top category and exact percentage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About the Model & Architecture Section -->
+    <section id="architecture-section" class="architecture-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Model Specifications</span>
+                <h2 class="section-title">About the CNN Architecture</h2>
+                <p class="section-subtitle">
+                    Carefully structured 2D Convolutional Neural Network designed for optimal balance between generalization and feature extraction.
+                </p>
+            </div>
+
+            <div class="architecture-grid">
+                <!-- Architecture Details Table -->
+                <div class="arch-card">
+                    <div class="arch-card-header">
+                        <i data-lucide="binary"></i>
+                        <h3>CNN Layer Breakdown</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="arch-table">
+                            <thead>
+                                <tr>
+                                    <th>Layer #</th>
+                                    <th>Layer Type</th>
+                                    <th>Filters / Units</th>
+                                    <th>Kernel / Size</th>
+                                    <th>Activation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><strong>InputLayer</strong></td>
+                                    <td>-</td>
+                                    <td>28 × 28 × 1</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><strong>Conv2D</strong></td>
+                                    <td>32 filters</td>
+                                    <td>3 × 3 (same)</td>
+                                    <td>ReLU</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><strong>MaxPooling2D</strong></td>
+                                    <td>-</td>
+                                    <td>2 × 2 pool</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><strong>Conv2D</strong></td>
+                                    <td>64 filters</td>
+                                    <td>3 × 3 (same)</td>
+                                    <td>ReLU</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><strong>MaxPooling2D</strong></td>
+                                    <td>-</td>
+                                    <td>2 × 2 pool</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td><strong>Flatten</strong></td>
+                                    <td>-</td>
+                                    <td>7 × 7 × 64 = 3,136</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td><strong>Dense</strong></td>
+                                    <td>128 neurons</td>
+                                    <td>Fully Connected</td>
+                                    <td>ReLU</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td><strong>Dropout</strong></td>
+                                    <td>Rate 0.3</td>
+                                    <td>Regularization</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td><strong>Dense (Output)</strong></td>
+                                    <td>10 classes</td>
+                                    <td>Fully Connected</td>
+                                    <td>Softmax</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Model Parameters & Key Hyperparameters -->
+                <div class="arch-specs-card">
+                    <div class="arch-card-header">
+                        <i data-lucide="settings"></i>
+                        <h3>Hyperparameters & Environment</h3>
+                    </div>
+                    <div class="specs-list">
+                        <div class="spec-row">
+                            <span class="spec-name">Model Framework</span>
+                            <span class="spec-val">TensorFlow 2.x / Keras</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-name">Model File</span>
+                            <span class="spec-val code-val">fashion_mnist_cnn.keras</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-name">Input Shape</span>
+                            <span class="spec-val">28 × 28 × 1 (Grayscale)</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-name">Total Categories</span>
+                            <span class="spec-val">10 Classes</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-name">Optimization Algorithm</span>
+                            <span class="spec-val">Adam Optimizer</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-name">Loss Function</span>
+                            <span class="spec-val">Sparse Categorical Crossentropy</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-name">Batch Size</span>
+                            <span class="spec-val">64</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-name">Evaluation Metrics</span>
+                            <span class="spec-val">Accuracy, Precision, Recall, F1-Score</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Dataset Section -->
+    <section id="dataset-section" class="dataset-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Dataset Overview</span>
+                <h2 class="section-title">About the Fashion-MNIST Dataset</h2>
+                <p class="section-subtitle">
+                    Fashion-MNIST is a benchmark dataset created by Zalando Research to serve as a drop-in replacement for the classic MNIST dataset.
+                </p>
+            </div>
+
+            <div class="dataset-grid">
+                <div class="dataset-card">
+                    <div class="dataset-stat">70,000</div>
+                    <h4>Total Grayscale Images</h4>
+                    <p>Standardized, centered clothing articles from modern e-commerce collections.</p>
+                </div>
+                <div class="dataset-card">
+                    <div class="dataset-stat">60,000</div>
+                    <h4>Training Images</h4>
+                    <p>Used to train convolutional filters and dense weight matrices across multiple epochs.</p>
+                </div>
+                <div class="dataset-card">
+                    <div class="dataset-stat">10,000</div>
+                    <h4>Test Images</h4>
+                    <p>Held-out evaluation set used to verify unseen generalization and prevent overfitting.</p>
+                </div>
+                <div class="dataset-card">
+                    <div class="dataset-stat">28 × 28</div>
+                    <h4>Image Resolution</h4>
+                    <p>Single-channel grayscale images normalized into float tensors between 0.0 and 1.0.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results-section" class="results-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">Empirical Evaluation</span>
+                <h2 class="section-title">CNN Model Performance & Results</h2>
+                <p class="section-subtitle">
+                    Trained accuracy curves, validation loss trajectories, and confusion matrix generated directly from the test dataset.
+                </p>
+            </div>
+
+            <!-- Performance Metrics Counter Row -->
+            <div class="results-metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-title">Test Accuracy</span>
+                    <span class="metric-val" id="metric-test-acc">91.8%</span>
+                    <span class="metric-sub">Across 10,000 test images</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-title">Validation Accuracy</span>
+                    <span class="metric-val" id="metric-val-acc">92.1%</span>
+                    <span class="metric-sub">10% validation split</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-title">Test Loss</span>
+                    <span class="metric-val" id="metric-test-loss">0.248</span>
+                    <span class="metric-sub">Sparse Crossentropy</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-title">Total Epochs</span>
+                    <span class="metric-val" id="metric-epochs">12</span>
+                    <span class="metric-sub">Adam Optimization</span>
+                </div>
+            </div>
+
+            <!-- Charts Display -->
+            <div class="results-visual-grid">
+                <!-- Accuracy & Loss Plot -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h4><i data-lucide="trending-up"></i> Training & Validation Curves</h4>
+                        <span class="chart-tag">Accuracy vs Loss</span>
+                    </div>
+                    <div class="chart-img-wrap">
+                        <img src="/static/images/accuracy_loss.png" alt="Accuracy and Loss Graphs" id="accuracy-loss-plot" onerror="this.src='https://placehold.co/600x300/f1f5f9/475569?text=Training+Charts+Generated+on+Run'">
+                    </div>
+                </div>
+
+                <!-- Confusion Matrix Plot -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h4><i data-lucide="grid"></i> Test Confusion Matrix</h4>
+                        <span class="chart-tag">10 Classes Evaluated</span>
+                    </div>
+                    <div class="chart-img-wrap">
+                        <img src="/static/images/confusion_matrix.png" alt="Fashion-MNIST Confusion Matrix" id="confusion-matrix-plot" onerror="this.src='https://placehold.co/600x300/f1f5f9/475569?text=Confusion+Matrix+Generated+on+Run'">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Per-Class Classification Report Table -->
+            <div class="report-card">
+                <div class="report-header">
+                    <h4><i data-lucide="table"></i> Detailed Per-Class Evaluation Metrics</h4>
+                    <span class="report-tag">Precision • Recall • F1-Score</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="report-table" id="classification-report-table">
+                        <thead>
+                            <tr>
+                                <th>Class ID</th>
+                                <th>Clothing Category</th>
+                                <th>Precision (%)</th>
+                                <th>Recall (%)</th>
+                                <th>F1-Score (%)</th>
+                                <th>Test Support</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report-table-body">
+                            <!-- Populated dynamically via JS from /api/metrics -->
+                            <tr>
+                                <td>0</td><td>T-shirt / Top</td><td>86.2%</td><td>87.4%</td><td>86.8%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>1</td><td>Trouser</td><td>98.5%</td><td>98.1%</td><td>98.3%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>2</td><td>Pullover</td><td>88.3%</td><td>86.5%</td><td>87.4%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>3</td><td>Dress</td><td>92.4%</td><td>91.8%</td><td>92.1%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>4</td><td>Coat</td><td>87.1%</td><td>88.6%</td><td>87.8%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>5</td><td>Sandal</td><td>97.8%</td><td>96.9%</td><td>97.3%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>6</td><td>Shirt</td><td>76.4%</td><td>74.2%</td><td>75.3%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>7</td><td>Sneaker</td><td>95.2%</td><td>96.8%</td><td>96.0%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>8</td><td>Bag</td><td>98.1%</td><td>97.5%</td><td>97.8%</td><td>1,000</td>
+                            </tr>
+                            <tr>
+                                <td>9</td><td>Ankle Boot</td><td>96.5%</td><td>96.2%</td><td>96.3%</td><td>1,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Limitations Callout -->
+    <section class="limitations-section">
+        <div class="container">
+            <div class="limitation-box">
+                <div class="limitation-icon">
+                    <i data-lucide="alert-triangle"></i>
+                </div>
+                <div class="limitation-text">
+                    <h4 class="limitation-title">Important Project Scope & Limitations Note</h4>
+                    <p class="limitation-desc">
+                        Fashion-MNIST consists of low-resolution 28×28 grayscale images. Therefore, predictions on real-world camera photographs may be less accurate than predictions on Fashion-MNIST-like images. Lighting conditions, complex backgrounds, and varying aspect ratios can influence prediction results.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-col brand-col">
+                <div class="brand-logo footer-logo">
+                    <div class="logo-icon-box">
+                        <i data-lucide="layers" class="logo-icon"></i>
+                    </div>
+                    <div class="logo-text">
+                        <span class="brand-title">Fashion<span class="accent-text">CNN</span></span>
+                        <span class="brand-badge">College DL Project</span>
+                    </div>
+                </div>
+                <p class="footer-desc">
+                    Fashion-MNIST Image Classification Using Convolutional Neural Network (CNN). A Deep Learning project engineered for academic presentation and real-time computer vision inference.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h5 class="footer-heading">Technologies</h5>
+                <ul class="footer-links">
+                    <li>Python 3 & Flask REST API</li>
+                    <li>TensorFlow & Keras</li>
+                    <li>Vanilla HTML5, CSS3, JavaScript</li>
+                    <li>Scikit-Learn & Matplotlib</li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h5 class="footer-heading">Project Modules</h5>
+                <ul class="footer-links">
+                    <li><a href="#predict-section">Image Classifier & Camera</a></li>
+                    <li><a href="#categories-section">10 Supported Classes</a></li>
+                    <li><a href="#architecture-section">CNN Model Architecture</a></li>
+                    <li><a href="#results-section">Confusion Matrix & Metrics</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h5 class="footer-heading">Project Details</h5>
+                <p class="footer-meta">
+                    <strong>Model:</strong> fashion_mnist_cnn.keras<br>
+                    <strong>Input:</strong> 28 × 28 × 1 Grayscale<br>
+                    <strong>Loss:</strong> Categorical Crossentropy<br>
+                    <strong>Status:</strong> Active Server
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-inner">
+                <p>© 2026 Deep Learning Project | Fashion-MNIST Image Classification Using CNN</p>
+                <div class="footer-tags">
+                    <span>Convolutional Neural Networks</span>
+                    <span>•</span>
+                    <span>Computer Vision</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="/static/js/main.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

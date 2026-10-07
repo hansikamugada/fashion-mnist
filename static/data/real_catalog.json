@@ -1,0 +1,62 @@
+[
+  {
+    "class_id": 0,
+    "label": "T-shirt/top",
+    "filename": "real_0_tshirt.jpg",
+    "url": "/static/images/real_samples/real_0_tshirt.jpg"
+  },
+  {
+    "class_id": 1,
+    "label": "Trouser",
+    "filename": "real_1_trouser.jpg",
+    "url": "/static/images/real_samples/real_1_trouser.jpg"
+  },
+  {
+    "class_id": 2,
+    "label": "Pullover",
+    "filename": "real_2_pullover.jpg",
+    "url": "/static/images/real_samples/real_2_pullover.jpg"
+  },
+  {
+    "class_id": 3,
+    "label": "Dress",
+    "filename": "real_3_dress.jpg",
+    "url": "/static/images/real_samples/real_3_dress.jpg"
+  },
+  {
+    "class_id": 4,
+    "label": "Coat",
+    "filename": "real_4_coat.jpg",
+    "url": "/static/images/real_samples/real_4_coat.jpg"
+  },
+  {
+    "class_id": 5,
+    "label": "Sandal",
+    "filename": "real_5_sandal.jpg",
+    "url": "/static/images/real_samples/real_5_sandal.jpg"
+  },
+  {
+    "class_id": 6,
+    "label": "Shirt",
+    "filename": "real_6_shirt.jpg",
+    "url": "/static/images/real_samples/real_6_shirt.jpg"
+  },
+  {
+    "class_id": 7,
+    "label": "Sneaker",
+    "filename": "real_7_sneaker.jpg",
+    "url": "/static/images/real_samples/real_7_sneaker.jpg"
+  },
+  {
+    "class_id": 8,
+    "label": "Bag",
+    "filename": "real_8_bag.jpg",
+    "url": "/static/images/real_samples/real_8_bag.jpg"
+  },
+  {
+    "class_id": 9,
+    "label": "Ankle boot",
+    "filename": "real_9_ankle_boot.jpg",
+    "url": "/static/images/real_samples/real_9_ankle_boot.jpg"
+  }
+]

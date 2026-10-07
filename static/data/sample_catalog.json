@@ -1,0 +1,62 @@
+[
+  {
+    "class_id": 0,
+    "label": "T-shirt/top",
+    "filename": "sample_0_t-shirt_top.png",
+    "url": "/static/images/samples/sample_0_t-shirt_top.png"
+  },
+  {
+    "class_id": 1,
+    "label": "Trouser",
+    "filename": "sample_1_trouser.png",
+    "url": "/static/images/samples/sample_1_trouser.png"
+  },
+  {
+    "class_id": 2,
+    "label": "Pullover",
+    "filename": "sample_2_pullover.png",
+    "url": "/static/images/samples/sample_2_pullover.png"
+  },
+  {
+    "class_id": 3,
+    "label": "Dress",
+    "filename": "sample_3_dress.png",
+    "url": "/static/images/samples/sample_3_dress.png"
+  },
+  {
+    "class_id": 4,
+    "label": "Coat",
+    "filename": "sample_4_coat.png",
+    "url": "/static/images/samples/sample_4_coat.png"
+  },
+  {
+    "class_id": 5,
+    "label": "Sandal",
+    "filename": "sample_5_sandal.png",
+    "url": "/static/images/samples/sample_5_sandal.png"
+  },
+  {
+    "class_id": 6,
+    "label": "Shirt",
+    "filename": "sample_6_shirt.png",
+    "url": "/static/images/samples/sample_6_shirt.png"
+  },
+  {
+    "class_id": 7,
+    "label": "Sneaker",
+    "filename": "sample_7_sneaker.png",
+    "url": "/static/images/samples/sample_7_sneaker.png"
+  },
+  {
+    "class_id": 8,
+    "label": "Bag",
+    "filename": "sample_8_bag.png",
+    "url": "/static/images/samples/sample_8_bag.png"
+  },
+  {
+    "class_id": 9,
+    "label": "Ankle boot",
+    "filename": "sample_9_ankle_boot.png",
+    "url": "/static/images/samples/sample_9_ankle_boot.png"
+  }
+]

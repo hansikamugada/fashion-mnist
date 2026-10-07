@@ -1,0 +1,145 @@
+{
+  "test_accuracy": 91.48,
+  "test_loss": 0.2409,
+  "train_accuracy": 93.67,
+  "val_accuracy": 92.15,
+  "train_loss": 0.1694,
+  "val_loss": 0.223,
+  "epochs": 10,
+  "class_names": [
+    "T-shirt/top",
+    "Trouser",
+    "Pullover",
+    "Dress",
+    "Coat",
+    "Sandal",
+    "Shirt",
+    "Sneaker",
+    "Bag",
+    "Ankle boot"
+  ],
+  "per_class_metrics": {
+    "T-shirt/top": {
+      "precision": 84.4,
+      "recall": 88.6,
+      "f1_score": 86.4,
+      "support": 1000
+    },
+    "Trouser": {
+      "precision": 99.8,
+      "recall": 98.0,
+      "f1_score": 98.9,
+      "support": 1000
+    },
+    "Pullover": {
+      "precision": 84.7,
+      "recall": 88.8,
+      "f1_score": 86.7,
+      "support": 1000
+    },
+    "Dress": {
+      "precision": 87.7,
+      "recall": 94.8,
+      "f1_score": 91.1,
+      "support": 1000
+    },
+    "Coat": {
+      "precision": 88.0,
+      "recall": 85.4,
+      "f1_score": 86.7,
+      "support": 1000
+    },
+    "Sandal": {
+      "precision": 99.0,
+      "recall": 98.1,
+      "f1_score": 98.5,
+      "support": 1000
+    },
+    "Shirt": {
+      "precision": 79.7,
+      "recall": 69.4,
+      "f1_score": 74.2,
+      "support": 1000
+    },
+    "Sneaker": {
+      "precision": 94.1,
+      "recall": 98.5,
+      "f1_score": 96.2,
+      "support": 1000
+    },
+    "Bag": {
+      "precision": 99.0,
+      "recall": 98.2,
+      "f1_score": 98.6,
+      "support": 1000
+    },
+    "Ankle boot": {
+      "precision": 98.2,
+      "recall": 95.0,
+      "f1_score": 96.6,
+      "support": 1000
+    }
+  },
+  "history": {
+    "epochs": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "accuracy": [
+      80.07,
+      87.49,
+      89.28,
+      90.14,
+      90.78,
+      91.56,
+      92.17,
+      92.7,
+      93.23,
+      93.67
+    ],
+    "val_accuracy": [
+      87.02,
+      88.88,
+      90.45,
+      90.47,
+      91.25,
+      91.62,
+      91.82,
+      91.17,
+      92.12,
+      92.15
+    ],
+    "loss": [
+      0.5426,
+      0.3442,
+      0.2986,
+      0.2705,
+      0.2496,
+      0.2291,
+      0.2129,
+      0.198,
+      0.1838,
+      0.1694
+    ],
+    "val_loss": [
+      0.3577,
+      0.2969,
+      0.2657,
+      0.2551,
+      0.2397,
+      0.2395,
+      0.2265,
+      0.2413,
+      0.2264,
+      0.223
+    ]
+  }
+}
