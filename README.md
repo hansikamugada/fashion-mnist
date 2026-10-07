@@ -90,7 +90,7 @@ FASION FINST/
 
 ---
 
-## 🚀 Running the Project
+## 🚀 Running the Project Locally
 
 To restart or run the server locally:
 
@@ -98,5 +98,37 @@ To restart or run the server locally:
 python app.py
 ```
 
-Then open your browser at:
-**[http://127.0.0.1:5000](http://127.0.0.1:5000)**
+Then open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your web browser.
+
+---
+
+## 🌐 Deploying to the Cloud (Free Hosting Options)
+
+### Recommended: Deploy on Render.com (Easiest & Free)
+
+1. **Push your code to GitHub:**
+   ```bash
+   git add .
+   git commit -m "Add cloud deployment configuration"
+   git push origin main
+   ```
+2. **Log into [Render.com](https://render.com/)** using your GitHub account.
+3. Click **"New +"** → **"Web Service"**.
+4. Select your GitHub repository (`fashion-mnist`).
+5. Render will automatically detect `render.yaml` or you can enter:
+   - **Environment:** `Python`
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `gunicorn app:app --workers 2 --threads 2 --timeout 120`
+   - **Plan:** `Free`
+6. Click **"Deploy Web Service"**.
+7. In ~2 minutes, your live HTTPS link will be active (e.g., `https://fashion-mnist-cnn.onrender.com`)!
+
+---
+
+### Alternative: Deploy on Hugging Face Spaces (Free 16 GB RAM)
+
+1. Create a free account on [Hugging Face](https://huggingface.co/).
+2. Click **New Space** → Name it `fashion-mnist-cnn`.
+3. Select **Space SDK**: **Docker** (Blank).
+4. Clone the space or push this repo directly to your Hugging Face Space remote.
+5. Hugging Face will automatically build using `Dockerfile` and run permanently for free!
